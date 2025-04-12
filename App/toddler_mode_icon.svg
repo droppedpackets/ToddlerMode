@@ -1,0 +1,32 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="240" fill="#4dabf5" />
+  
+  <!-- Keyboard base -->
+  <rect x="96" y="180" width="320" height="200" rx="20" ry="20" fill="#e0e0e0" stroke="#333333" stroke-width="8" />
+  
+  <!-- Keys -->
+  <rect x="116" y="200" width="40" height="40" rx="5" ry="5" fill="#ffffff" stroke="#333333" stroke-width="3" />
+  <rect x="166" y="200" width="40" height="40" rx="5" ry="5" fill="#ffffff" stroke="#333333" stroke-width="3" />
+  <rect x="216" y="200" width="40" height="40" rx="5" ry="5" fill="#ffffff" stroke="#333333" stroke-width="3" />
+  <rect x="266" y="200" width="40" height="40" rx="5" ry="5" fill="#ffffff" stroke="#333333" stroke-width="3" />
+  <rect x="316" y="200" width="40" height="40" rx="5" ry="5" fill="#ffffff" stroke="#333333" stroke-width="3" />
+  <rect x="356" y="200" width="40" height="40" rx="5" ry="5" fill="#ffffff" stroke="#333333" stroke-width="3" />
+  
+  <rect x="126" y="250" width="40" height="40" rx="5" ry="5" fill="#ffffff" stroke="#333333" stroke-width="3" />
+  <rect x="176" y="250" width="40" height="40" rx="5" ry="5" fill="#ffffff" stroke="#333333" stroke-width="3" />
+  <rect x="226" y="250" width="40" height="40" rx="5" ry="5" fill="#ffffff" stroke="#333333" stroke-width="3" />
+  <rect x="276" y="250" width="40" height="40" rx="5" ry="5" fill="#ffffff" stroke="#333333" stroke-width="3" />
+  <rect x="326" y="250" width="40" height="40" rx="5" ry="5" fill="#ffffff" stroke="#333333" stroke-width="3" />
+  
+  <rect x="146" y="300" width="180" height="40" rx="5" ry="5" fill="#ffffff" stroke="#333333" stroke-width="3" />
+  
+  <!-- Small hand silhouette -->
+  <path d="M300,160 C310,140 330,135 345,150 C355,160 360,180 355,200 L340,230 L330,220 L335,200 C338,190 335,180 330,175 C322,170 315,173 310,183 L300,210 L290,200 L300,160 Z" fill="#ffb6c1" stroke="#333333" stroke-width="3" />
+  
+  <!-- Shield with lock -->
+  <path d="M256,100 L186,130 L186,200 C186,240 216,280 256,300 C296,280 326,240 326,200 L326,130 L256,100 Z" fill="#5fd38d" fill-opacity="0.7" stroke="#333333" stroke-width="4" />
+  <circle cx="256" cy="200" r="25" fill="#333333" />
+  <rect x="244" y="180" width="24" height="40" rx="5" ry="5" fill="#333333" />
+  <rect x="251" y="170" width="10" height="15" fill="#333333" />
+</svg>
