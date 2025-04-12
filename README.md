@@ -39,7 +39,7 @@ ToddlerMode prevents these issues while still allowing normal interaction with t
 1. Ensure you have .NET 6.0 SDK or later installed
 2. Clone this repository:
    ```
-   git clone https://github.com/yourusername/ToddlerMode.git
+   git clone https://github.com/droppedpackets/ToddlerMode.git
    ```
 3. Navigate to the project directory:
    ```
