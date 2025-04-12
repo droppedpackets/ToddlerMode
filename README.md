@@ -4,7 +4,7 @@
 
 ToddlerMode is a simple Windows application that creates a safe environment for toddlers to use a computer by restricting keyboard input that could disrupt their experience or damage the system.
 
-![ToddlerMode Screenshot](ToddlerModeIcon.ico)
+![ToddlerMode Screenshot](App/ToddlerModeIcon.ico)
 
 ## Features
 
