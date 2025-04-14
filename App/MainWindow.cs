@@ -85,9 +85,10 @@ namespace ToddlerMode
             // Create description text
             TextBlock descriptionText = new TextBlock
             {
-                Text = "When activated, this app will keep the window in fullscreen mode and allow normal typing\n" +
-                       "while blocking system shortcuts and other potentially disruptive key combinations.\n" +
-                       "Use Ctrl+Alt+Delete or Ctrl+Alt+Esc to exit Toddler Mode if needed.",
+                Text = "When activated, this app will restrict problematic keyboard combinations\n" +
+                       "while allowing normal typing within any window. ToddlerMode will remain as a small\n" +
+                       "floating window, allowing other applications to stay open.\n" +
+                       "Use Ctrl+Alt+Delete or Ctrl+Alt+Esc to exit ToddlerMode if needed.",
                 FontSize = 18,
                 TextWrapping = TextWrapping.Wrap,
                 HorizontalAlignment = HorizontalAlignment.Center,
@@ -189,36 +190,120 @@ namespace ToddlerMode
 
         private void ActivateToddlerMode()
         {
-            // Set full screen mode
-            WindowStyle = WindowStyle.None;
-            WindowState = WindowState.Maximized;
+            // Instead of making our app fullscreen, we'll keep it as a floating overlay
+            // that allows other applications to remain visible
+            WindowStyle = WindowStyle.ToolWindow;
+            Width = 300;
+            Height = 150;
+            ResizeMode = ResizeMode.NoResize;
+
+            // Keep it topmost so it's always accessible
             Topmost = true;
 
-            // Set the hook
+            // Position in bottom right corner of the screen
+            Left = SystemParameters.PrimaryScreenWidth - Width - 20;
+            Top = SystemParameters.PrimaryScreenHeight - Height - 50;
+
+            // Set the hook to capture keyboard input
             _hookID = SetHook(_proc);
 
-            // Update UI
+            // Switch to compact layout
+            SwitchToCompactLayout();
+
+            // Update UI state
             _toddlerModeActive = true;
-            _toggleButton.Content = "Deactivate ToddlerMode";
-            _toggleButton.Background = new SolidColorBrush(Colors.LightPink);
-            _statusText.Text = "Status: Active - Keyboard restricted";
 
-            // Hide the button completely in toddler mode
-            _toggleButton.Visibility = Visibility.Collapsed;
-
-            // Move focus away from the button to prevent Enter/Space from triggering it
-            // Clear keyboard focus entirely
+            // Clear keyboard focus
             Dispatcher.BeginInvoke(new Action(() =>
             {
                 Keyboard.ClearFocus();
             }));
         }
 
+        private void SwitchToCompactLayout()
+        {
+            // Create a new compact layout
+            Grid compactGrid = new Grid();
+            compactGrid.Background = new SolidColorBrush(Colors.LightBlue);
+
+            // Add a border
+            Border border = new Border
+            {
+                BorderBrush = new SolidColorBrush(Colors.DarkBlue),
+                BorderThickness = new Thickness(2),
+                CornerRadius = new CornerRadius(5)
+            };
+
+            // Create a stack panel for content
+            StackPanel panel = new StackPanel
+            {
+                Margin = new Thickness(10)
+            };
+
+            // Add a title
+            TextBlock titleText = new TextBlock
+            {
+                Text = "ToddlerMode Active",
+                FontWeight = FontWeights.Bold,
+                FontSize = 16,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Margin = new Thickness(0, 0, 0, 10)
+            };
+
+            // Add status text
+            TextBlock statusText = new TextBlock
+            {
+                Text = "Keyboard restrictions enabled",
+                FontSize = 12,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Margin = new Thickness(0, 0, 0, 10)
+            };
+
+            // Add deactivate button
+            Button deactivateButton = new Button
+            {
+                Content = "Deactivate ToddlerMode",
+                Padding = new Thickness(10, 5, 10, 5),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Background = new SolidColorBrush(Colors.LightPink)
+            };
+            deactivateButton.Click += ToggleToddlerMode;
+
+            // Store reference to the button
+            _toggleButton = deactivateButton;
+
+            // Store reference to the status text
+            _statusText = statusText;
+
+            // Add everything to panel
+            panel.Children.Add(titleText);
+            panel.Children.Add(statusText);
+            panel.Children.Add(deactivateButton);
+
+            // Add panel to border
+            border.Child = panel;
+
+            // Add border to grid
+            compactGrid.Children.Add(border);
+
+            // Set as content
+            Content = compactGrid;
+        }
+
+        private void SwitchToFullLayout()
+        {
+            // Recreate the main layout
+            InitializeWindow();
+        }
+
         private void DeactivateToddlerMode()
         {
-            // Remove full screen mode
+            // Restore normal window appearance
             WindowStyle = WindowStyle.SingleBorderWindow;
-            WindowState = WindowState.Normal;
+            Width = 800;
+            Height = 600;
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            ResizeMode = ResizeMode.CanResize;
             Topmost = false;
 
             // Unhook if needed
@@ -228,14 +313,11 @@ namespace ToddlerMode
                 _hookID = IntPtr.Zero;
             }
 
-            // Update UI
+            // Update UI state
             _toddlerModeActive = false;
-            _toggleButton.Content = "Activate ToddlerMode";
-            _toggleButton.Background = new SolidColorBrush(Colors.LightGreen);
-            _statusText.Text = "Status: Inactive";
 
-            // Show the button again
-            _toggleButton.Visibility = Visibility.Visible;
+            // Switch back to full layout
+            SwitchToFullLayout();
         }
 
         private IntPtr SetHook(LowLevelKeyboardProc proc)
